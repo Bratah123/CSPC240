@@ -52,7 +52,7 @@ Summary of week 1 assembly lecture notes.
   - Example Address: 000FFFF87AB44870
   - 1 hex digit: 4 bits = 4870 (Last 4 digits of the 64 bit address above)
 - Addresses on a Stack Drawing:
-  - ![addresses_on_stack]https://media.discordapp.net/attachments/746519006961336370/936350401828118548/4afdbfc332ba61fcfb122fd1845897e6.png?width=754&height=609)
+  - ![addresses_on_stack](https://media.discordapp.net/attachments/746519006961336370/936350401828118548/4afdbfc332ba61fcfb122fd1845897e6.png?width=754&height=609)
 
 ## Assembly Source Code Structure
   ```asm

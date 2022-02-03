@@ -7,9 +7,8 @@
 extern "C" long int testmodule();
 
 int main(int argc, char* argv[]) {
-  printf("This program will print hello world from an assembly module.\n");
+  printf("This program will ask for two integers and return the sum of the two numbers.\n");
   testmodule();
-  printf("End of assembly module.\n");
-  printf("End of demonstration test.\n");
+  printf("\nEnd of demonstration test.\n");
   return 0;
 }

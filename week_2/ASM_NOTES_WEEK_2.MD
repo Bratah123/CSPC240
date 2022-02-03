@@ -52,3 +52,34 @@
   pop rax ; clean up the stack
   ; Block end
   ```
+  ```asm
+  ; Put 0.0 into xmm7
+  mov rax, 0
+  push rax
+  movsd xmm7 [rsp]
+  pop rax
+
+  ucomisd xmm12, xmm7 ; Unordered Compare Scalar Double-Precision Floating-Point Values and Set EFLAGS
+  ; ucomisd is an instruction that compares two xmm registers
+  ; ucomisd xmm7, xmm12
+  ; Checking to see if: xmm7 < xmm12
+                        xmm7 == xmm12
+                        xmm7 > xmm12
+                        xmm7 >= xmm12
+                        xmm7 != xmm12
+  ; stores the answer in an rflag
+  ; jb: <
+  ; jbe <=
+  ; ja >
+  ; jae >=
+  ; je ==
+  ; jne !=
+
+  jbe exit ; jump if condition is met: Jump short if below or equal (CF=1 or ZF=1)
+  ; compute area of triangle
+
+  ; show final message
+  exit:
+  ; final message here
+  ; return x to driver
+  ```

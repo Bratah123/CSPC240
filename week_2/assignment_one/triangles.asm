@@ -33,6 +33,8 @@ inputs db "%lf %lf %lf", 0
 
 entered db "You entered %lf %lf %lf", 10, 0
 
+area_prompt db "The area of your triangle is %lf square units", 10, 0
+
 segment .bss  ; Reserved for uninitialized arrays
    ;Empty
 
@@ -126,24 +128,58 @@ add rdx, 8          ; rdx = rsp+8 = side B
 mov rcx, rsp
 add rcx, 16         ; rcx = rsp+16 = angle (degrees)
 call scanf
-movsd xmm9, [rsp]   ; length of side 1 triangle
+movsd xmm10, [rsp]   ; length of side 1 triangle
 pop rax
-movsd xmm10, [rsp]  ; length of side 2 triangle
+movsd xmm11, [rsp]  ; length of side 2 triangle
 pop rax
-movsd xmm11, [rsp]  ; angle between two sides (degrees)
+movsd xmm12, [rsp]  ; angle between two sides (degrees)
 pop rax
 
 pop rax
 ; Inputs Start End -------------------------------------------------------------
 
 ; Display Inputs ---------------------------------------------------------------
-mov rax, 1        ; indicate usage of xmm registers
+mov rax, 3          ; indicate usage of xmm registers
 mov rdi, entered
-movsd xmm0, xmm9  ; side 1
-movsd xmm1, xmm10 ; side 2
-movsd xmm2, xmm11 ; side 3
+movsd xmm0, xmm10   ; side 1
+movsd xmm1, xmm11   ; side 2
+movsd xmm2, xmm12   ; angle (degrees)
 call printf
-; Display Inputs ---------------------------------------------------------------
+; Display Inputs End -----------------------------------------------------------
+
+; Convert Degree to Radians ----------------------------------------------------
+mulsd xmm12, [pi]
+mov rax, 180
+cvtsi2sd xmm13, rax
+divsd xmm12, xmm13 ; xmm12 is now the angle in radians
+; Convert Degree to Radians End ------------------------------------------------
+; Compute Area of Triangle -----------------------------------------------------
+; Formula: (side1 * side2 * sin(angle))/2 in radians
+mov rax, 1
+cvtsi2sd xmm14, rax
+mulsd xmm14, xmm10 ; 1 * side1
+mulsd xmm14, xmm11 ; 1 * side1 * side2
+movsd xmm0, xmm12
+call sin           ; sin(angle) in rads
+mulsd xmm14, xmm0  ; 1 * side1 * side2 * sin(angle)
+mov rax, 2
+cvtsi2sd xmm15, rax
+divsd xmm14, xmm15 ; (1 * side1 * side2 * sin(angle)) / 2
+; Compute Area of Triangle End -------------------------------------------------
+
+; Print Out Area ---------------------------------------------------------------
+mov rax, 1
+mov rdi, area_prompt
+movsd xmm0, xmm14
+call printf
+; Print Out Area End -----------------------------------------------------------
+
+; Compute Perimeter of Triangle ------------------------------------------------
+; Formula: sqrt(A^2 + B^2 - 2AB*cos(x))
+; mov rax, 1
+; cvtsi2sd xmm14, rax
+; Compute Perimeter of Triangle End --------------------------------------------
+
 
 ; Epilogue: restore data to the values held before this function was called.
 ; Boiler Plate
@@ -164,5 +200,4 @@ pop rcx
 pop rbx
 pop rbp               ; Restore the base pointer of the stack frame of the caller.
 ret
-
 ; ========================================================================================

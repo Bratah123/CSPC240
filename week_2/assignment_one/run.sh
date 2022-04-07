@@ -1,7 +1,7 @@
 #!/bin/bash
 
-#Program: Compute Triangle Compilation Script
 #Author: Brandon Nguyen
+#Program: Bash Compile for asm and C++
 
 echo "Bash: The script file for triangles has begun"
 

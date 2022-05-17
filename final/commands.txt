@@ -1,0 +1,18 @@
+b main
+b resistance
+b resistance.asm:113
+b resistance.asm:127
+b driver.cpp:18
+r
+x/1xg $rbp
+c
+p/d ($rbp - $rsp)/8 + 1
+c
+xx.xx
+yy.yy
+p/lf $xmm10.v2_int64[0]
+c
+x/8xg $rsp
+c
+p/lf *(double*)&total_resistance
+c
